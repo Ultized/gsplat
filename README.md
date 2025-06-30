@@ -11,12 +11,17 @@ gsplat is an open-source library for CUDA accelerated rasterization of gaussians
   <video src="https://github.com/nerfstudio-project/gsplat/assets/10151885/64c2e9ca-a9a6-4c7e-8d6f-47eeacd15159" width="100%" />
 </div>
 
+## News
+
+[May 2025] Arbitrary batching (over multiple scenes and multiple viewpoints) is supported now!! Checkout [here](docs/batch.md) for more details! Kudos to [Junchen Liu](https://junchenliu77.github.io/).
+
+[May 2025] [Jonathan Stephens](https://x.com/jonstephens85) makes a great [tutorial video](https://www.youtube.com/watch?v=ACPTiP98Pf8) for Windows users on how to install gsplat and get start with 3DGUT.
+
+[April 2025] [NVIDIA 3DGUT](https://research.nvidia.com/labs/toronto-ai/3DGUT/) is now integrated in gsplat! Checkout [here](docs/3dgut.md) for more details. [[NVIDIA Tech Blog]](https://developer.nvidia.com/blog/revolutionizing-neural-reconstruction-and-rendering-in-gsplat-with-3dgut/) [[NVIDIA Sweepstakes]](https://www.nvidia.com/en-us/research/3dgut-sweepstakes/)
+
 ## Installation
 
 **Dependence**: Please install [Pytorch](https://pytorch.org/get-started/locally/) first.
-
-
-
 
 The easiest way is to install from PyPI. In this way it will build the CUDA code **on the first run** (JIT).
 
@@ -24,20 +29,26 @@ The easiest way is to install from PyPI. In this way it will build the CUDA code
 pip install gsplat
 ```
 
-Or install from source. In this way it will build the CUDA code during installation.
+Alternatively you can install gsplat from source. In this way it will build the CUDA code during installation.
 
 ```bash
 pip install git+https://github.com/nerfstudio-project/gsplat.git
 ```
 
-To install gsplat on Windows, please check [this instruction](docs/INSTALL_WIN.md).
+We also provide [pre-compiled wheels](https://docs.gsplat.studio/whl) for both linux and windows on certain python-torch-CUDA combinations (please check first which versions are supported). Note this way you would have to manually install [gsplat's dependencies](https://github.com/nerfstudio-project/gsplat/blob/6022cf45a19ee307803aaf1f19d407befad2a033/setup.py#L115). For example, to install gsplat for pytorch 2.0 and cuda 11.8 you can run
+```
+pip install ninja numpy jaxtyping rich
+pip install gsplat --index-url https://docs.gsplat.studio/whl/pt20cu118
+```
+
+To build gsplat from source on Windows, please check [this instruction](docs/INSTALL_WIN.md).
 
 ## Evaluation
 
 This repo comes with a standalone script that reproduces the official Gaussian Splatting with exactly the same performance on PSNR, SSIM, LPIPS, and converged number of Gaussians. Powered by gsplat’s efficient CUDA implementation, the training takes up to **4x less GPU memory** with up to **15% less time** to finish than the official implementation. Full report can be found [here](https://docs.gsplat.studio/main/tests/eval.html).
 
 ```bash
-# under examples/
+cd examples
 pip install -r requirements.txt
 # download mipnerf_360 benchmark data
 python datasets/download_dataset.py
@@ -71,16 +82,17 @@ This project is developed by the following wonderful contributors (unordered):
 - [Zhuoyang Pan](https://panzhy.com/) (ShanghaiTech University): Core developer.
 - [Jianbo Ye](http://www.jianboye.org/) (Amazon): Core developer.
 
-We also have made the mathematical supplement, with conventions and derivations, available [here](https://arxiv.org/abs/2312.02121). If you find this library useful in your projects or papers, please consider citing:
+We also have a white paper with about the project with benchmarking and mathematical supplement with conventions and derivations, available [here](https://arxiv.org/abs/2409.06765). If you find this library useful in your projects or papers, please consider citing:
 
 ```
-@misc{ye2023mathematical,
-    title={Mathematical Supplement for the $\texttt{gsplat}$ Library}, 
-    author={Vickie Ye and Angjoo Kanazawa},
-    year={2023},
-    eprint={2312.02121},
-    archivePrefix={arXiv},
-    primaryClass={cs.MS}
+@article{ye2025gsplat,
+  title={gsplat: An open-source library for Gaussian splatting},
+  author={Ye, Vickie and Li, Ruilong and Kerr, Justin and Turkulainen, Matias and Yi, Brent and Pan, Zhuoyang and Seiskari, Otto and Ye, Jianbo and Hu, Jeffrey and Tancik, Matthew and Angjoo Kanazawa},
+  journal={Journal of Machine Learning Research},
+  volume={26},
+  number={34},
+  pages={1--17},
+  year={2025}
 }
 ```
 
